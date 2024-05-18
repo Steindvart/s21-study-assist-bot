@@ -2,6 +2,8 @@ import logging
 
 from aiogram import types
 
+from section import get_sections
+
 # DEFECT - using global objects, not good
 from bot import bot, bot_config, main_keyboard
 import utils
@@ -30,5 +32,17 @@ async def about(message: types.Message) -> None:
   text = (f'{desc}\n\n'
           f'{features}\n\n'
           f'{contribute}')
+
+  await message.answer(text)
+
+async def list_sections(message: types.Message) -> None:
+  sections = get_sections()
+
+  if not sections:
+    await message.answer(f"{res['sections']['not_found']}.")
+
+  sections_list = "\n".join([section.name for section in sections])
+  text = (f"{res['sections']['available']}:\n"
+          f'{sections_list}')
 
   await message.answer(text)
