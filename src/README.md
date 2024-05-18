@@ -1,5 +1,5 @@
 ## Запуск для разработки
-1. Развернуть вирутальное окружение: `python -m venv myenv`
+1. Развернуть вирутальное окружение: `python -m venv venv`
 2. Активировать **venv**:
     - Windows: `.\venv\Scripts\activate`
     - Unix/MacOS: `source venv/bin/activate`
