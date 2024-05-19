@@ -9,6 +9,7 @@ def register_commands(dp: Dispatcher) -> None:
   dp.message.register(cmd.start, Command(commands=['start']))
   dp.message.register(cmd.about, Command(commands=['about']))
   dp.message.register(cmd.list_sections, Command(commands=['sections']))
+  dp.message.register(cmd.list_topics, Command(commands=['topics']))
 
 
 # def register_processors(dp: Dispatcher) -> None:

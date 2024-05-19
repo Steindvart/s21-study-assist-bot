@@ -5,6 +5,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot import bot
 import config
+from commands import initialize_sections
 
 
 # Configure logging
@@ -19,6 +20,7 @@ if __name__ == '__main__':
 
   # Commands
   # TODO - move it to separate block
+  initialize_sections()
   config.register_commands(dp)
   # config.register_processors(dp)
 

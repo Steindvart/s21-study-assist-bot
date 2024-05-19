@@ -11,6 +11,11 @@ import utils
 # Alliaces
 res = bot_config.resources
 
+sections = {}
+
+def initialize_sections():
+  global sections
+  sections = {section.name: section for section in get_sections()}
 
 async def start(message: types.Message) -> None:
   logging.info(utils.get_log_str('start', message.from_user))
@@ -36,13 +41,34 @@ async def about(message: types.Message) -> None:
   await message.answer(text)
 
 async def list_sections(message: types.Message) -> None:
-  sections = get_sections()
-
   if not sections:
-    await message.answer(f"{res['sections']['not_found']}.")
+    await message.answer(f"{res['sections']['no_any']}.")
 
-  sections_list = "\n".join([section.name for section in sections])
+  sections_list = "\n".join(sections.keys())
   text = (f"{res['sections']['available']}:\n"
           f'{sections_list}')
+
+  await message.answer(text)
+
+async def list_topics(message: types.Message):
+  command_parts = message.text.split()
+  if len(command_parts) < 2:
+    await message.answer(f"'{res['topics']['specify']}' '{res['topics']['format']}'")
+    return
+
+  section_name = command_parts[1]
+  section = sections.get(section_name)
+  if not section:
+    await message.answer(res['sections']['not_found'] % section_name)
+    return
+
+  topics = section.get_topics()
+  if not topics:
+    await message.answer(res['topics']['no_any'] % section_name)
+    return
+
+  topics_list = "\n".join(topics)
+  text = res['topics']['_prev'] % section_name
+  text += f':\n{topics_list}'
 
   await message.answer(text)
