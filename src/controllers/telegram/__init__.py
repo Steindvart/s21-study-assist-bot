@@ -1,8 +1,8 @@
 import logging as log
 from aiogram import Dispatcher
 
-from .commonCommands import register_common_commnads
-from .sectionCommands import register_section_commnads
+from .common_commands import register_common_commnads
+from .section_сommands import register_section_commnads
 
 
 def register_commands(dp: Dispatcher) -> None:

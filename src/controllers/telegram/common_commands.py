@@ -12,7 +12,7 @@ res = bot_config.resources
 
 def register_common_commnads(dp: Dispatcher) -> None:
   dp.message.register(start, Command(commands=['start']))
-  dp.message.register(about, Command(commands=['about']))
+  dp.message.register(help, Command(commands=['help']))
 
 
 async def start(message: types.Message) -> None:
@@ -22,8 +22,8 @@ async def start(message: types.Message) -> None:
   await message.answer(text, reply_markup=main_keyboard)
 
 
-async def about(message: types.Message) -> None:
-  log.info(utils.get_log_str('about', message.from_user))
+async def help(message: types.Message) -> None:
+  log.info(utils.get_log_str('help', message.from_user))
 
   desc = res['description']
   features = '\n'.join(res['features'].values())
