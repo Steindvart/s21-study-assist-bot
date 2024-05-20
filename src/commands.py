@@ -53,7 +53,7 @@ async def list_sections(message: types.Message) -> None:
 async def list_topics(message: types.Message):
   command_parts = message.text.split()
   if len(command_parts) < 2:
-    await message.answer(f"'{res['topics']['specify']}' '{res['topics']['format']}'")
+    await message.answer(f"{res['topics']['specify']}.\n{res['topics']['format']}")
     return
 
   section_name = command_parts[1]
