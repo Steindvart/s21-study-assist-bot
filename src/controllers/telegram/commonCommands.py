@@ -1,0 +1,39 @@
+from aiogram import Dispatcher, types
+from aiogram.filters import Command
+
+import logging as log
+import utils
+
+# DEFECT: code duplicate in other scripts
+from bot import bot_config, main_keyboard
+
+res = bot_config.resources
+
+
+def register_common_commnads(dp: Dispatcher) -> None:
+  dp.message.register(start, Command(commands=['start']))
+  dp.message.register(about, Command(commands=['about']))
+
+
+async def start(message: types.Message) -> None:
+  log.info(utils.get_log_str('start', message.from_user))
+
+  text = res['hello'] + '\n\n' + '\n'.join(res['main_commands'].values())
+  await message.answer(text, reply_markup=main_keyboard)
+
+
+async def about(message: types.Message) -> None:
+  log.info(utils.get_log_str('about', message.from_user))
+
+  desc = res['description']
+  features = '\n'.join(res['features'].values())
+
+  contribute = (f'{res['contribute']['_prev']}\n'
+                f'{res['contribute']['desc']}\n\n'
+                f'{res['contribute']['repo']}')
+
+  text = (f'{desc}\n\n'
+          f'{features}\n\n'
+          f'{contribute}')
+
+  await message.answer(text)

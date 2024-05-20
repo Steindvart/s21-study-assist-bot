@@ -1,15 +1,14 @@
-import logging
+import logging as log
 
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot import bot
-import config
-from commands import initialize_sections
+from controllers.telegram import register_commands
 
 
 # Configure logging
-logging.basicConfig(filename='data/app.log', level=logging.INFO,
+log.basicConfig(filename='data/app.log', level=log.INFO,
                     format='%(asctime)s %(levelname)s %(name)s - %(message)s')
 
 
@@ -18,10 +17,9 @@ if __name__ == '__main__':
   storage: MemoryStorage = MemoryStorage()
   dp: Dispatcher = Dispatcher(storage=storage)
 
-  # Commands
-  # TODO - move it to separate block
-  initialize_sections()
-  config.register_commands(dp)
+
+  # bot_config.initialize_sections(content_dir)
+  register_commands(dp)
   # config.register_processors(dp)
 
   dp.run_polling(bot)

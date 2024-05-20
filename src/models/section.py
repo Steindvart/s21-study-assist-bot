@@ -4,6 +4,7 @@ from typing import List
 import logging as log
 import os
 
+
 @dataclass
 class Section:
   name: str
@@ -22,7 +23,8 @@ class Section:
       log.error(f"Error accessing topics in section {self.name}: {e}")
     return topics
 
-def get_sections(directory="../content") -> List[Section]:
+
+def get_sections(directory: str) -> List[Section]:
   sections = []
   try:
     for entry in os.listdir(directory):
