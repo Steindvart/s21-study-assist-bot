@@ -4,11 +4,12 @@ from aiogram import Dispatcher, types
 from aiogram.filters import Command
 
 # DEFECT: code duplicate in other scripts
-from bot import bot_config
+from config import bot_config
 
 res = bot_config.resources
 sections = bot_config.sections
 
+# ---------------------------------------------
 
 def register_section_commnads(dp: Dispatcher) -> None:
   dp.message.register(list_sections, Command(commands=['sections']))
