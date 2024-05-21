@@ -1,4 +1,15 @@
 import logging as log
+from environs import Env
+
+env = Env()
+env.read_env()
+
+# #NOTE - configure immediately after import is IMPORTANT!
+log.basicConfig(filename='app.log',
+                level=log._nameToLevel[env('LOG_LEVEL')],
+                format='[{asctime}] {levelname:8} {filename}: {lineno} - {name} - {message}',
+                style='{'
+)
 
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -7,16 +18,10 @@ from bot import bot
 from controllers.telegram import register_commands
 
 
-# Configure logging
-log.basicConfig(filename='data/app.log', level=log.INFO,
-                    format='%(asctime)s %(levelname)s %(name)s - %(message)s')
-
-
 # Main
 if __name__ == '__main__':
   storage: MemoryStorage = MemoryStorage()
   dp: Dispatcher = Dispatcher(storage=storage)
-
 
   # bot_config.initialize_sections(content_dir)
   register_commands(dp)
