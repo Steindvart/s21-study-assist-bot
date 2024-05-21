@@ -22,10 +22,11 @@ from models.section import get_sections
 # ---------------------------------------------
 
 @dataclass
-class BotConfig:
+class Config:
   _locale: str = 'ru'
-  supportedLocales = ("ru",)
+  supportedLocales: tuple = ("ru")
   sections = {}
+  bot_token: str = ''
 
   @property
   def locale(self):
@@ -45,14 +46,15 @@ class BotConfig:
   def __init__(self) -> None:
     self.resources = utils.get_locale_res(self.locale)
     self.sections = {}
+    self.bot_token = env("BOT_TOKEN")
 
 
 # Global object
-bot_config: BotConfig = BotConfig()
+config: Config = Config()
 
 src_dir = os.path.dirname(os.path.abspath(__file__))
 content_dir = os.path.join(src_dir, '../content')
-bot_config.initialize_sections(content_dir)
+config.initialize_sections(content_dir)
 
 
 main_buttons = [

@@ -4,10 +4,10 @@ from aiogram import Dispatcher, types
 from aiogram.filters import Command
 
 # DEFECT: code duplicate in other scripts
-from config import bot_config
+from config import config
 
-res = bot_config.resources
-sections = bot_config.sections
+res = config.resources
+sections = config.sections
 
 # ---------------------------------------------
 

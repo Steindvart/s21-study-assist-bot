@@ -5,9 +5,9 @@ import logging as log
 import utils
 
 # DEFECT: code duplicate in other scripts
-from config import bot_config, main_keyboard
+from config import config, main_keyboard
 
-res = bot_config.resources
+res = config.resources
 
 # ---------------------------------------------
 

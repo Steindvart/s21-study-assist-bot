@@ -1,10 +1,7 @@
 from aiogram import Bot
 
-from environs import Env
+from config import config
 
 # ---------------------------------------------
 
-env = Env()
-env.read_env()
-
-bot: Bot = Bot(env("BOT_TOKEN"), parse_mode="Markdown")
+bot: Bot = Bot(config.bot_token, parse_mode="Markdown")
