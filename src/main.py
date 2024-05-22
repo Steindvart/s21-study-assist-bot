@@ -15,6 +15,7 @@ async def main() -> None:
 
   dp.include_router(controllers.telegram.common_handlers.router)
   dp.include_router(controllers.telegram.section_handlers.router)
+  dp.include_router(controllers.telegram.other_handlers.router)
 
   # bot_config.initialize_sections(content_dir)
 
