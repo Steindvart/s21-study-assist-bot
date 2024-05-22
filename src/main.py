@@ -1,4 +1,5 @@
 import config
+import asyncio
 
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -8,8 +9,7 @@ from controllers.telegram import register_commands
 
 # ---------------------------------------------
 
-# Main
-if __name__ == '__main__':
+async def main() -> None:
   storage: MemoryStorage = MemoryStorage()
   dp: Dispatcher = Dispatcher(storage=storage)
 
@@ -17,4 +17,7 @@ if __name__ == '__main__':
   register_commands(dp)
   # config.register_processors(dp)
 
-  dp.run_polling(bot)
+  await bot.delete_webhook(drop_pending_updates=True)
+  await dp.start_polling(bot)
+
+asyncio.run(main())
