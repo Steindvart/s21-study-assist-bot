@@ -5,7 +5,7 @@ from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot import bot
-from controllers.telegram import register_commands
+import controllers.telegram
 
 # ---------------------------------------------
 
@@ -13,9 +13,10 @@ async def main() -> None:
   storage: MemoryStorage = MemoryStorage()
   dp: Dispatcher = Dispatcher(storage=storage)
 
+  dp.include_router(controllers.telegram.common_handlers.router)
+  dp.include_router(controllers.telegram.section_handlers.router)
+
   # bot_config.initialize_sections(content_dir)
-  register_commands(dp)
-  # config.register_processors(dp)
 
   await bot.delete_webhook(drop_pending_updates=True)
   await dp.start_polling(bot)

@@ -1,6 +1,6 @@
 import logging as log
 
-from aiogram import Dispatcher, types
+from aiogram import Router, types
 from aiogram.filters import Command
 
 # DEFECT: code duplicate in other scripts
@@ -8,15 +8,13 @@ from config import config
 
 res = config.resources
 sections = config.sections
+router = Router()
 
 # ---------------------------------------------
 
-def register_section_commnads(dp: Dispatcher) -> None:
-  dp.message.register(list_sections, Command(commands=['sections']))
-  dp.message.register(list_topics, Command(commands=['topics']))
 
-
-async def list_sections(message: types.Message) -> None:
+@router.message(Command(commands=['sections']))
+async def process_list_sections_command(message: types.Message) -> None:
   log.info(sections)
   if not sections:
     await message.answer(f"{res['sections']['no_any']}.")
@@ -29,7 +27,8 @@ async def list_sections(message: types.Message) -> None:
   await message.answer(text)
 
 
-async def list_topics(message: types.Message):
+@router.message(Command(commands=['topics']))
+async def process_list_topics_command(message: types.Message):
   command_parts = message.text.split()
   if len(command_parts) < 2:
     await message.answer(f"{res['topics']['specify']}.\n{res['topics']['format']}")
