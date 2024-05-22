@@ -4,7 +4,7 @@ from environs import Env
 env = Env()
 env.read_env()
 
-# #NOTE - configure immediately after import is IMPORTANT!
+# #NOTE - configure immediately after logging import is IMPORTANT!
 log.basicConfig(filename='app.log',
                 level=log._nameToLevel[env('LOG_LEVEL')],
                 format='[{asctime}] {levelname:8} {filename}: {lineno} - {name} - {message}',
@@ -24,7 +24,7 @@ from models.section import get_sections
 @dataclass
 class Config:
   _locale: str = 'ru'
-  supportedLocales: tuple = ("ru")
+  supported_locales: tuple = ("ru")
   sections = {}
   bot_token: str = ''
 
@@ -34,7 +34,7 @@ class Config:
 
   @locale.setter
   def locale(self, val):
-    if val not in self.supportedLocales:
+    if val not in self.supported_locales:
       raise ValueError(f"{val} locale is not supported.")
     self._locale = val
     self.resources = utils.get_locale_res(val)

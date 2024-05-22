@@ -1,16 +1,13 @@
-# Folders
-## Python
+# Python
 __pycache__/
 venv/
 
-## VSCode
+# VSCode
 .vs/
 .vscode/
 
-## Other
+# Other
 tmp/
 data/
-
-# Files
 .env
 app.log
