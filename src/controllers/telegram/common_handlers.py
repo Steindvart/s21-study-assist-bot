@@ -17,7 +17,7 @@ router = Router()
 async def process_start_command(message: types.Message) -> None:
   log.info(utils.get_log_str('start', message.from_user))
 
-  text = res['hello'] + '\n\n' + '\n'.join(res['main_commands'].values())
+  text = res['hello'] + '\n\n' + '\n'.join(utils.get_formated_main_commands_desc(res['main_commands']))
   await message.answer(text, reply_markup=main_keyboard)
 
 
