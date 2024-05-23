@@ -1,10 +1,11 @@
-import config
+from config import config
 import asyncio
 
-from aiogram import Dispatcher
+from aiogram import Dispatcher, Bot
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from bot import bot
 import controllers.telegram
 import views.telegram
 
@@ -13,6 +14,7 @@ import views.telegram
 async def main() -> None:
   storage: MemoryStorage = MemoryStorage()
   dp: Dispatcher = Dispatcher(storage=storage)
+  bot: Bot = Bot(config.bot_token, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
 
   dp.include_router(controllers.telegram.common_handlers.router)
   dp.include_router(controllers.telegram.section_handlers.router)
