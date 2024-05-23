@@ -6,6 +6,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot import bot
 import controllers.telegram
+import views.telegram
 
 # ---------------------------------------------
 
@@ -19,7 +20,10 @@ async def main() -> None:
 
   # bot_config.initialize_sections(content_dir)
 
+  await views.telegram.main_menu.set_main_menu(bot)
+
   await bot.delete_webhook(drop_pending_updates=True)
   await dp.start_polling(bot)
+
 
 asyncio.run(main())

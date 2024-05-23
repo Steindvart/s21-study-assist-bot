@@ -22,7 +22,7 @@ def get_log_str(source: str, usr: User) -> str:
           f"language_code: {usr.language_code}"
 
 
-def get_formated_main_commands_desc(obj):
+def get_formated_main_commands_desc(obj) -> list[str]:
   formatted_list = []
   for key, value in obj.items():
     if key == "_prev":
