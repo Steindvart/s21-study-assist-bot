@@ -20,3 +20,13 @@ def get_log_str(source: str, usr: User) -> str:
   return  f"{source} - User_id: {usr.id}, " \
           f"first_name: {usr.first_name}, " \
           f"language_code: {usr.language_code}"
+
+
+def get_formated_main_commands_desc(obj) -> list[str]:
+  formatted_list = []
+  for key, value in obj.items():
+    if key == "_prev":
+      formatted_list.append(value)
+      continue
+    formatted_list.append(f"{key} - {value}")
+  return formatted_list

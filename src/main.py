@@ -1,25 +1,31 @@
-import logging
+from config import config
+import asyncio
 
-from aiogram import Dispatcher
+from aiogram import Dispatcher, Bot
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from bot import bot
-import config
+import controllers.telegram as ct
+from views.telegram import main_menu
 
+# ---------------------------------------------
 
-# Configure logging
-logging.basicConfig(filename='data/app.log', level=logging.INFO,
-                    format='%(asctime)s %(levelname)s %(name)s - %(message)s')
-
-
-# Main
-if __name__ == '__main__':
+async def main() -> None:
   storage: MemoryStorage = MemoryStorage()
   dp: Dispatcher = Dispatcher(storage=storage)
+  bot: Bot = Bot(config.bot_token, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
 
-  # Commands
-  # TODO - move it to separate block
-  config.register_commands(dp)
-  # config.register_processors(dp)
+  dp.include_router(ct.common_handlers.router)
+  dp.include_router(ct.sections.handlers.router)
+  dp.include_router(ct.other_handlers.router)
 
-  dp.run_polling(bot)
+  # bot_config.initialize_sections(content_dir)
+
+  await main_menu.set_main_menu(bot)
+
+  await bot.delete_webhook(drop_pending_updates=True)
+  await dp.start_polling(bot)
+
+
+asyncio.run(main())
