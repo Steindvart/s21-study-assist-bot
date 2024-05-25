@@ -1,4 +1,5 @@
 import json
+import os
 
 from aiogram.types import User, Message
 
@@ -30,3 +31,9 @@ def get_formated_main_commands_desc(obj) -> list[str]:
       continue
     formatted_list.append(f"{key} - {value}")
   return formatted_list
+
+
+def get_only_filename(path: str) -> str:
+  filename_with_extension = os.path.basename(path)
+  filename, _ = os.path.splitext(filename_with_extension)
+  return filename
