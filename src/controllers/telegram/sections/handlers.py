@@ -35,7 +35,8 @@ async def process_list_sections_command(message: Message) -> None:
 
 @router.callback_query(SectionsCallbackFactory.filter())
 async def process_section_callback(callback: CallbackQuery, callback_data: SectionsCallbackFactory):
-    await callback.message.answer(text=callback_data.pack())
+    test = sections.get(callback_data.section_name).topics[0].tests[0]
+    await callback.message.answer(str(test))
     await callback.answer()
 
 
