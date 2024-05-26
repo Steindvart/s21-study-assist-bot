@@ -29,9 +29,9 @@ def get_interactive_section_keyboard() -> InlineKeyboardMarkup:
 
 
 def get_body_list_sections(sections: dict) -> (str, InlineKeyboardMarkup):
-  sections_list: str = "\n".join(sections.keys())
+  sections_list: str = "\n- ".join(sections.keys())
   text = (f"{res['sections']['available']}:\n"
-          f'{sections_list}')
+          f'- {sections_list}')
 
   keyboard = select_section_keyboard(sections.keys())
 
