@@ -20,7 +20,6 @@ router = Router()
 
 # ---------------------------------------------
 
-
 @router.callback_query(F.data == SectonCallbacks.list_sections, StateFilter(default_state))
 async def handle_list_sections_callback(callback: CallbackQuery, state: FSMContext) -> None:
   if not sections:

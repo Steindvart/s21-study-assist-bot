@@ -14,7 +14,6 @@ res = config.resources
 
 # ---------------------------------------------
 
-
 def get_text_start_message() -> str:
   text = (f'{res['hello']}\n\n'
           f'{"\n".join(utils.get_formated_main_commands_desc(res['commands']))}'

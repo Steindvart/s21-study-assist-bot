@@ -3,6 +3,7 @@ import os
 
 from aiogram.types import User, Message
 
+# ---------------------------------------------
 
 def get_locale_res(locale: str):
   with open(f"res/locales/{locale}.json", "r", encoding="utf8") as file:

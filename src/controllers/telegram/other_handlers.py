@@ -11,7 +11,6 @@ router = Router()
 
 # ---------------------------------------------
 
-
 @router.message()
 async def process_unknown_message(message: Message):
   text = (f'{res['unknown']}\n\n'

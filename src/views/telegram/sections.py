@@ -10,7 +10,6 @@ res = config.resources
 
 # ---------------------------------------------
 
-
 def select_section_keyboard(sections: list[str]) -> InlineKeyboardMarkup:
   keyboard = InlineKeyboardBuilder()
   for section_name in sections:
