@@ -1,2 +1,2 @@
-from . import main_menu
+from . import common
 from . import sections
