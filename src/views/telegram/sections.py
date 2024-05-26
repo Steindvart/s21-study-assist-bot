@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from controllers.telegram.sections.callbacks import SectionsCallbackFactory
+from controllers.telegram.sections.callbacks import SectionsCallbackFactory, SectonCallbacks
 
 from models.section import Section
 
@@ -21,8 +21,8 @@ def select_section_keyboard(sections: list[str]) -> InlineKeyboardMarkup:
 
 def get_interactive_section_keyboard() -> InlineKeyboardMarkup:
   keyboard = InlineKeyboardBuilder([
-    [InlineKeyboardButton(text=res['testing']['start'], callback_data='start_testing')],
-    [InlineKeyboardButton(text=res['sections']['back_to_select'], callback_data='back_to_select')]
+    [InlineKeyboardButton(text=res['testing']['start'], callback_data=SectonCallbacks.start_testing)],
+    [InlineKeyboardButton(text=res['sections']['back_to_select'], callback_data=SectonCallbacks.back_to_select)]
   ])
 
   return keyboard.as_markup()

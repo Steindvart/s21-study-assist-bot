@@ -4,6 +4,8 @@ from aiogram import Bot
 from aiogram.types import BotCommand, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from controllers.telegram.sections.callbacks import SectonCallbacks
+
 import utils
 
 from config import config
@@ -34,7 +36,7 @@ async def set_main_menu(bot: Bot):
 
 def get_keyboard_start_interact() -> InlineKeyboardMarkup:
   keyboard = InlineKeyboardBuilder([
-    [InlineKeyboardButton(text=res['sections']['list'], callback_data='call:list_sections')]
+    [InlineKeyboardButton(text=res['sections']['list'], callback_data=SectonCallbacks.list_sections)]
   ])
 
   return keyboard.as_markup()

@@ -8,7 +8,7 @@ from aiogram.fsm.state import default_state
 
 import views.telegram.sections
 
-from .callbacks import SectionsCallbackFactory
+from .callbacks import SectionsCallbackFactory, SectonCallbacks
 from .states import FSMSection
 
 # DEFECT: code duplicate in other scripts
@@ -21,7 +21,7 @@ router = Router()
 # ---------------------------------------------
 
 
-@router.callback_query(F.data == 'call:list_sections', StateFilter(default_state))
+@router.callback_query(F.data == SectonCallbacks.list_sections, StateFilter(default_state))
 async def handle_list_sections_callback(callback: CallbackQuery, state: FSMContext) -> None:
   if not sections:
     await callback.message.answer(f"{res['sections']['no_any']}.")
@@ -47,6 +47,6 @@ async def handle_select_section_callback(callback: CallbackQuery, callback_data:
   await state.set_state(FSMSection.section_selected)
 
 
-@router.callback_query(F.data == 'back_to_select', StateFilter(FSMSection.section_selected))
+@router.callback_query(F.data == SectonCallbacks.back_to_select, StateFilter(FSMSection.section_selected))
 async def handle_back_section_callback(callback: CallbackQuery, state: FSMContext):
   await handle_list_sections_callback(callback, state)
