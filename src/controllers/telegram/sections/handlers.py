@@ -35,9 +35,18 @@ async def process_list_sections_command(message: Message) -> None:
 
 @router.callback_query(SectionsCallbackFactory.filter())
 async def process_section_callback(callback: CallbackQuery, callback_data: SectionsCallbackFactory):
-    test = sections.get(callback_data.section_name).topics[0].tests[0]
-    await callback.message.answer(str(test))
-    await callback.answer()
+  section_name = callback_data.section_name
+  section = sections.get(section_name)
+  if not section:
+    await callback.message.answer(res['sections']['not_found'] % section_name)
+    return
+
+  text = (f'{res['sections']['section']}: *{section_name}*\n'
+          f'{res['sections']['tests_quantity']}: {section.get_tests_quantity()}\n\n'
+          f'{res['sections']['topics']}:\n- {"\n- ".join([str(topic) for topic in section.topics])}')
+
+  await callback.message.answer(text)
+  await callback.answer()
 
 
 @router.message(Command(commands=['topics']))

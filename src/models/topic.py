@@ -30,3 +30,11 @@ class Topic:
       raise Exception(f"File not found: {self.path}")
     except Exception as e:
       raise Exception(f"Error reading file {self.path}: {e}")
+
+
+  def __str__(self) -> str:
+    return self.name
+
+
+  def get_tests_quantity(self) -> int:
+    return len(self.tests)
