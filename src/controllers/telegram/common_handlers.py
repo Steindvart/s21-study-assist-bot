@@ -1,5 +1,6 @@
 from aiogram import Router, types
 from aiogram.filters import Command, CommandStart
+from aiogram.fsm.context import FSMContext
 
 import logging as log
 import utils
@@ -28,6 +29,14 @@ async def handle_start_command(message: types.Message) -> None:
   log.info(utils.get_log_str('start', message.from_user))
 
   await process_start(message)
+  await process_start_interact(message)
+
+
+@router.message(Command(commands='cancel'))
+async def handle_cancel_command(message: types.Message, state: FSMContext) -> None:
+  log.info(utils.get_log_str('cancel', message.from_user))
+
+  await state.clear()
   await process_start_interact(message)
 
 
