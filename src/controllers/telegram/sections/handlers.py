@@ -41,9 +41,9 @@ async def process_section_callback(callback: CallbackQuery, callback_data: Secti
     await callback.message.answer(res['sections']['not_found'] % section_name)
     return
 
-  text = (f'{res['sections']['section']}: *{section_name}*\n'
-          f'{res['sections']['tests_quantity']}: {section.get_tests_quantity()}\n\n'
-          f'{res['sections']['topics']}:\n- {"\n- ".join([str(topic) for topic in section.topics])}')
+  text = (f'📂 {res['sections']['section']}: *{section_name}*\n'
+          f'📝 {res['sections']['tests_quantity']}: {section.get_tests_quantity()}\n\n'
+          f'📚 {res['sections']['topics']}:\n- {"\n- ".join([str(topic) for topic in section.topics])}')
 
   await callback.message.answer(text)
   await callback.answer()
