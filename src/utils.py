@@ -27,7 +27,7 @@ def get_formated_main_commands_desc(obj) -> list[str]:
   formatted_list = []
   for key, value in obj.items():
     if key == "_prev":
-      formatted_list.append(value)
+      formatted_list.append(f'{value}:')
       continue
     formatted_list.append(f"{key} - {value}")
   return formatted_list

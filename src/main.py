@@ -7,7 +7,7 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 import controllers.telegram as ct
-from views.telegram import main_menu
+import views.telegram.common
 
 # ---------------------------------------------
 
@@ -22,7 +22,7 @@ async def main() -> None:
 
   # bot_config.initialize_sections(content_dir)
 
-  await main_menu.set_main_menu(bot)
+  await views.telegram.common.set_main_menu(bot)
 
   await bot.delete_webhook(drop_pending_updates=True)
   await dp.start_polling(bot)

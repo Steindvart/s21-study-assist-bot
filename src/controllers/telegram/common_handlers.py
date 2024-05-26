@@ -1,24 +1,43 @@
 from aiogram import Router, types
 from aiogram.filters import Command, CommandStart
+from aiogram.fsm.context import FSMContext
 
 import logging as log
 import utils
+import views.telegram.common
 
 # DEFECT: code duplicate in other scripts
-from config import config, main_keyboard
+from config import config
 
 res = config.resources
 router = Router()
 
 # ---------------------------------------------
 
+async def process_start(message: types.Message):
+  text = views.telegram.common.get_text_start_message()
+  await message.answer(text)
+
+
+async def process_start_interact(message: types.Message):
+  text, keyboard = views.telegram.common.get_body_start_interact()
+  await message.answer(text, reply_markup=keyboard)
+
 
 @router.message(CommandStart())
-async def process_start_command(message: types.Message) -> None:
+async def handle_start_command(message: types.Message) -> None:
   log.info(utils.get_log_str('start', message.from_user))
 
-  text = res['hello'] + '\n\n' + '\n'.join(utils.get_formated_main_commands_desc(res['main_commands']))
-  await message.answer(text, reply_markup=main_keyboard)
+  await process_start(message)
+  await process_start_interact(message)
+
+
+@router.message(Command(commands='cancel'))
+async def handle_cancel_command(message: types.Message, state: FSMContext) -> None:
+  log.info(utils.get_log_str('cancel', message.from_user))
+
+  await state.clear()
+  await process_start_interact(message)
 
 
 @router.message(Command(commands='help'))

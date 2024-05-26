@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import List
 
 import logging as log
@@ -32,6 +31,10 @@ class Section:
 
   def __repr__(self) -> str:
     return self.name
+
+
+  def get_tests_quantity(self) -> int:
+    return sum(topic.get_tests_quantity() for topic in self.topics)
 
 
 def get_sections(directory: str) -> List[Section]:

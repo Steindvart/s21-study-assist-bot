@@ -1,14 +1,18 @@
 import logging as log
 
-from aiogram import Router
-from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery
+from aiogram import Router, F
+from aiogram.filters import StateFilter
+from aiogram.types import CallbackQuery
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
 
-from views.telegram.select_sections_keyboard import get_select_sections_keyboard
+import views.telegram.sections
+
+from .callbacks import SectionsCallbackFactory, SectonCallbacks
+from .states import FSMSection
 
 # DEFECT: code duplicate in other scripts
 from config import config
-from .callbacks import SectionsCallbackFactory
 
 res = config.resources
 sections = config.sections
@@ -17,49 +21,32 @@ router = Router()
 # ---------------------------------------------
 
 
-@router.message(Command(commands=['sections']))
-async def process_list_sections_command(message: Message) -> None:
-  log.info(sections)
+@router.callback_query(F.data == SectonCallbacks.list_sections, StateFilter(default_state))
+async def handle_list_sections_callback(callback: CallbackQuery, state: FSMContext) -> None:
   if not sections:
-    await message.answer(f"{res['sections']['no_any']}.")
+    await callback.message.answer(f"{res['sections']['no_any']}.")
     return
 
-  sections_list = "\n".join(sections.keys())
-  text = (f"{res['sections']['available']}:\n"
-          f'{sections_list}')
+  text, keyboard = views.telegram.sections.get_body_list_sections(sections)
 
-  keyboard = get_select_sections_keyboard(sections.keys())
-
-  await message.answer(text, reply_markup=keyboard)
+  await callback.message.edit_text(text, reply_markup=keyboard)
+  await state.set_state(FSMSection.sections_list)
 
 
-@router.callback_query(SectionsCallbackFactory.filter())
-async def process_section_callback(callback: CallbackQuery, callback_data: SectionsCallbackFactory):
-    test = sections.get(callback_data.section_name).topics[0].tests[0]
-    await callback.message.answer(str(test))
-    await callback.answer()
-
-
-@router.message(Command(commands=['topics']))
-async def process_list_topics_command(message: Message):
-  command_parts = message.text.split()
-  if len(command_parts) < 2:
-    await message.answer(f"{res['topics']['specify']}.\n{res['topics']['format']}")
-    return
-
-  section_name = command_parts[1]
+@router.callback_query(SectionsCallbackFactory.filter(), StateFilter(FSMSection.sections_list))
+async def handle_select_section_callback(callback: CallbackQuery, callback_data: SectionsCallbackFactory, state: FSMContext):
+  section_name = callback_data.section_name
   section = sections.get(section_name)
   if not section:
-    await message.answer(res['sections']['not_found'] % section_name)
+    await callback.message.answer(res['sections']['not_found'] % section_name)
     return
 
-  topics = section.get_topics()
-  if not topics:
-    await message.answer(res['topics']['no_any'] % section_name)
-    return
+  text, keyboard = views.telegram.sections.get_body_select_section(section)
 
-  topics_list = "\n".join(topics)
-  text = res['topics']['_prev'] % section_name
-  text += f':\n{topics_list}'
+  await callback.message.edit_text(text, reply_markup=keyboard)
+  await state.set_state(FSMSection.section_selected)
 
-  await message.answer(text)
+
+@router.callback_query(F.data == SectonCallbacks.back_to_select, StateFilter(FSMSection.section_selected))
+async def handle_back_section_callback(callback: CallbackQuery, state: FSMContext):
+  await handle_list_sections_callback(callback, state)

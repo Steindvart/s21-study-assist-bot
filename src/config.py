@@ -55,18 +55,3 @@ config: Config = Config()
 src_dir = os.path.dirname(os.path.abspath(__file__))
 content_dir = os.path.join(src_dir, '../content')
 config.initialize_sections(content_dir)
-
-
-main_buttons = [
-  [],
-]
-
-main_keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(
-  keyboard=main_buttons,
-  resize_keyboard=True
-)
-
-cancel_keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(
-  keyboard=[[KeyboardButton(text="Отмена")]],
-  resize_keyboard=True
-)
