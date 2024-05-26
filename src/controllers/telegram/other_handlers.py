@@ -15,5 +15,5 @@ router = Router()
 @router.message()
 async def process_unknown_message(message: Message):
   text = (f'{res['unknown']}\n\n'
-          f'{'\n'.join(utils.get_formated_main_commands_desc(res['main_commands']))}')
+          f'{'\n'.join(utils.get_formated_main_commands_desc(res['commands']))}')
   await message.answer(text)
