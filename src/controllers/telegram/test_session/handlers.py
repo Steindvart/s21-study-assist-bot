@@ -7,6 +7,7 @@ from aiogram.fsm.context import FSMContext
 
 from models.section import Section
 from models.topic import Topic
+from models.test_task import TestTask
 
 import views.telegram.test_session
 import views.telegram.common
@@ -43,6 +44,12 @@ async def handle_answer_test_session_callback(callback: CallbackQuery, callback_
   session_data: TestSessionData = data.get('session_data')
 
   answer_indx = int(callback_data.val)
+  topic: Topic = section.topics[session_data.topic_indx]
+  test: TestTask = topic.tests[session_data.test_indx]
+
+  if (answer_indx == test.correct_answer_index):
+    session_data.count_correct()
+    await state.update_data({'session_data': session_data})
 
   text, keyboard = views.telegram.test_session.get_body_session_result(section, session_data, answer_indx)
 
@@ -57,7 +64,6 @@ async def handle_next_test_callback(callback: CallbackQuery, state: FSMContext):
   session_data: TestSessionData = data.get('session_data')
 
   topic: Topic = section.topics[session_data.topic_indx]
-
   session_data.update_as_next(topic.get_tests_quantity())
 
   if (session_data.topic_indx >= len(section.topics)):
