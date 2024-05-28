@@ -79,14 +79,13 @@ async def process_start_interact(message: Message):
   await message.answer(text, reply_markup=keyboard)
 
 
-@router.callback_query(F.data == TestSessionCallbacks.stop)
+@router.callback_query(F.data == TestSessionCallbacks.end)
 async def handle_end_test_session_callback(callback: CallbackQuery, state: FSMContext):
   data = await state.get_data()
   section: Section = data.get('section')
   session_data: TestSessionData = data.get('session_data')
 
-  # text, keyboard = views.telegram.test_session.get_body_session(section, session_data)
+  text, keyboard = views.telegram.test_session.get_body_session_end(section, session_data)
 
-  await state.clear()
-  await process_start_interact(callback.message)
-  await callback.answer()
+  await callback.message.edit_text(text, reply_markup=keyboard)
+  await state.set_state(FSMTestSession.end)

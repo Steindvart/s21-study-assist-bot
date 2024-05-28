@@ -29,7 +29,7 @@ def get_session_keyboard(task: TestTask, with_answers=True, with_actions=False, 
 
   action_btns: list[InlineKeyboardButton] = []
   if (with_actions):
-    action_btns.append(InlineKeyboardButton(text=res['testing']['stop'], callback_data=TestSessionCallbacks.stop))
+    action_btns.append(InlineKeyboardButton(text=res['testing']['stop'], callback_data=TestSessionCallbacks.end))
     if (not is_end):
       action_btns.append( InlineKeyboardButton(text=res['testing']['next'], callback_data=TestSessionCallbacks.next))
 
@@ -76,23 +76,33 @@ def get_body_session_result(section: Section, session_data: TestSessionData, ans
   return (text, keyboard)
 
 
-# def get_body_session_end(section: Section, session_data: TestSessionData) -> (str, InlineKeyboardMarkup):
-#   topic: Topic = section.topics[session_data.topic_indx]
-#   test: TestTask = topic.tests[session_data.test_indx]
+def get_new_session_keyboard() -> InlineKeyboardMarkup:
+  keyboard = InlineKeyboardBuilder([
+    [InlineKeyboardButton(text=res['testing']['new'], callback_data=TestSessionCallbacks.new)]
+  ])
 
-#   result_text = f'🟢 {res['testing']['right']}' if (answer_indx == test.correct_answer_index) else f'🔴 {res['testing']['wrong']}'
-#   explanation_text = (f"`----------------------------------`\n\n"
-#                       f"{test.explanation}")
+  return keyboard.as_markup()
 
-#   test_text = (f"*{test.question}*\n\n"
-#               f"{get_test_answers_str(test, True)}\n\n"
-#               f"{explanation_text if test.explanation else ''}")
 
-#   text = (f'{res['testing']['test_counter'] % (session_data.test_counter, section.get_tests_quantity())}\n'
-#           f'{res['topics']['topic']}: {topic.name}\n\n'
-#           f'{res['testing']['your_answ']}: {answer_indx+1}. *{result_text}*!\n\n'
-#           f'{test_text}')
+def get_body_session_end(section: Section, session_data: TestSessionData) -> (str, InlineKeyboardMarkup):
+  if session_data.test_total == 0:
+    percentage = 0
+  else:
+    percentage = (session_data.correct_answers / session_data.test_total) * 100
 
-#   keyboard = get_session_keyboard(test, False, True)
+  if percentage <= 40:
+    emoji = "🔴"
+  elif 41 <= percentage <= 70:
+    emoji = "🟡"
+  else:
+    emoji = "🟢"
 
-#   return (text, keyboard)
+  text = (f'✨ *{res['testing']['result']}*\n\n'
+          f'📂 {res['sections']['section']}: *{section.name}*\n'
+          f'📝 {res['testing']['test_counter_result'] % (session_data.test_counter, session_data.test_total)}\n\n'
+          f'{res['testing']['correct_answ']}: *{session_data.correct_answers}*\n'
+          f'{res["testing"]["successfully"]}: {emoji} *{percentage:.2f}%*')
+
+  keyboard = get_new_session_keyboard()
+
+  return (text, keyboard)
