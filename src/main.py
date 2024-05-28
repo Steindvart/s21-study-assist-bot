@@ -18,6 +18,7 @@ async def main() -> None:
 
   dp.include_router(ct.common_handlers.router)
   dp.include_router(ct.sections.handlers.router)
+  dp.include_router(ct.test_session.handlers.router)
   dp.include_router(ct.other_handlers.router)
 
   # bot_config.initialize_sections(content_dir)

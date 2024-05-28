@@ -48,30 +48,6 @@ class TestTask:
 
     return None
 
-  def get_answers_str(self, mark_right=False) -> str:
-    answers_str = "\n".join(
-      [f"{'✅' if mark_right and idx == self.correct_answer_index else '❌' if mark_right else ''} {idx + 1}. {ans}"
-        for idx, ans in enumerate(self.answers)]
-    )
-    return answers_str
-
-
-  # TODO: move to views
-  def get_str_for_message(self, mark_right=False, with_explanation=False) -> str:
-    answers_str = self.get_answers_str(mark_right)
-    return (f"*{self.question}*\n\n"
-            f"{answers_str}\n\n"
-            f"{self.explanation if with_explanation else ''}")
-
-
-  def __str__(self) -> str:
-    answers_str = self.get_answers_str()
-    explanation_str = f"\nExplanation: {self.explanation}" if self.explanation else ""
-    return (f"Question: {self.question}\n"
-            f"Answers:\n{answers_str}\n"
-            f"Correct Answer: {self.correct_answer_index + 1}\n"
-            f"{explanation_str}")
-
 
   def __repr__(self) -> str:
     return (f"TestTask(question={self.question!r}, "

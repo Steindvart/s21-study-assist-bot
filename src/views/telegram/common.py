@@ -35,7 +35,7 @@ async def set_main_menu(bot: Bot):
 
 def get_keyboard_start_interact() -> InlineKeyboardMarkup:
   keyboard = InlineKeyboardBuilder([
-    [InlineKeyboardButton(text=res['sections']['list'], callback_data=SectonCallbacks.list_sections)]
+    [InlineKeyboardButton(text=res['sections']['list'], callback_data=SectonCallbacks.list)]
   ])
 
   return keyboard.as_markup()
