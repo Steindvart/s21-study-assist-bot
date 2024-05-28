@@ -49,18 +49,6 @@ class TestTask:
     return None
 
 
-  def __str__(self) -> str:
-    answers_str = "\n".join(
-      [f"{idx + 1}. {ans}"
-        for idx, ans in enumerate(self.answers)]
-    )
-    explanation_str = f"\nExplanation: {self.explanation}" if self.explanation else ""
-    return (f"Question: {self.question}\n"
-            f"Answers:\n{answers_str}\n"
-            f"Correct Answer: {self.correct_answer_index + 1}\n"
-            f"{explanation_str}")
-
-
   def __repr__(self) -> str:
     return (f"TestTask(question={self.question!r}, "
             f"answers={self.answers!r}, "

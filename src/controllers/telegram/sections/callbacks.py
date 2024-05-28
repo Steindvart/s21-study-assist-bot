@@ -1,14 +1,11 @@
-from enum import Enum
-
 from aiogram.filters.callback_data import CallbackData
 
 # ---------------------------------------------
 
+class SectonCallbacks():
+  list = 'section:list_sections'
+  back_to_select = 'section:back_to_select'
+
+
 class SectionsCallbackFactory(CallbackData, prefix='section'):
   section_name: str
-
-
-class SectonCallbacks():
-  list_sections = 'call:list_sections'
-  start_testing = 'call:start_testing'
-  back_to_select = 'call:back_to_select'
