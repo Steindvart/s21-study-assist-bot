@@ -28,7 +28,7 @@ router = Router()
 async def handle_start_test_session_callback(callback: CallbackQuery, state: FSMContext):
   data = await state.get_data()
   section: Section = data.get('section')
-  session_data: TestSessionData = TestSessionData()
+  session_data: TestSessionData = TestSessionData(test_total=section.get_tests_quantity())
   await state.update_data({'session_data': session_data})
 
   text, keyboard = views.telegram.test_session.get_body_session(section, session_data)
@@ -66,11 +66,6 @@ async def handle_next_test_callback(callback: CallbackQuery, state: FSMContext):
   topic: Topic = section.topics[session_data.topic_indx]
   session_data.update_as_next(topic.get_tests_quantity())
 
-  if (session_data.topic_indx >= len(section.topics)):
-    # state.set_state(FSMTestSession.end)
-    await handle_end_test_session_callback(callback, state)
-    return
-
   await state.update_data({'session_data': session_data})
 
   text, keyboard = views.telegram.test_session.get_body_session(section, session_data)
@@ -86,6 +81,12 @@ async def process_start_interact(message: Message):
 
 @router.callback_query(F.data == TestSessionCallbacks.stop)
 async def handle_end_test_session_callback(callback: CallbackQuery, state: FSMContext):
+  data = await state.get_data()
+  section: Section = data.get('section')
+  session_data: TestSessionData = data.get('session_data')
+
+  # text, keyboard = views.telegram.test_session.get_body_session(section, session_data)
+
   await state.clear()
   await process_start_interact(callback.message)
   await callback.answer()

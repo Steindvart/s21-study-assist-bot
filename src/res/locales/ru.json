@@ -41,7 +41,7 @@
   },
   "testing": {
     "start": "Начать тестирование",
-    "question_counter": "Вопрос %s из %s",
+    "test_counter": "Вопрос %s из %s",
     "your_answ": "Ваш ответ",
     "right": "Верно",
     "wrong": "Неверно",

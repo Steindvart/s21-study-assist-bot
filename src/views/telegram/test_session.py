@@ -21,7 +21,7 @@ def get_test_answers_str(test: TestTask, mark_right=False) -> str:
   return answers_str
 
 
-def get_session_keyboard(task: TestTask, with_answers=True, with_actions=False) -> InlineKeyboardMarkup:
+def get_session_keyboard(task: TestTask, with_answers=True, with_actions=False, is_end=False) -> InlineKeyboardMarkup:
   answers_btns: list[InlineKeyboardButton] = []
   if (with_answers):
     for i in range(len(task.answers)):
@@ -29,10 +29,9 @@ def get_session_keyboard(task: TestTask, with_answers=True, with_actions=False) 
 
   action_btns: list[InlineKeyboardButton] = []
   if (with_actions):
-    action_btns = [
-      InlineKeyboardButton(text=res['testing']['stop'], callback_data=TestSessionCallbacks.stop),
-      InlineKeyboardButton(text=res['testing']['next'], callback_data=TestSessionCallbacks.next)
-    ]
+    action_btns.append(InlineKeyboardButton(text=res['testing']['stop'], callback_data=TestSessionCallbacks.stop))
+    if (not is_end):
+      action_btns.append( InlineKeyboardButton(text=res['testing']['next'], callback_data=TestSessionCallbacks.next))
 
   keyboard = InlineKeyboardBuilder([answers_btns, action_btns])
 
@@ -46,7 +45,7 @@ def get_body_session(section: Section, session_data: TestSessionData) -> (str, I
   test_text = (f"*{test.question}*\n\n"
                f"{get_test_answers_str(test)}")
 
-  text = (f'{res['testing']['question_counter'] % (session_data.test_total, section.get_tests_quantity())}\n'
+  text = (f'{res['testing']['test_counter'] % (session_data.test_counter, section.get_tests_quantity())}\n'
           f'{res['topics']['topic']}: {topic.name}\n\n'
           f'{test_text}')
 
@@ -67,11 +66,33 @@ def get_body_session_result(section: Section, session_data: TestSessionData, ans
               f"{get_test_answers_str(test, True)}\n\n"
               f"{explanation_text if test.explanation else ''}")
 
-  text = (f'{res['testing']['question_counter'] % (session_data.test_total, section.get_tests_quantity())}\n'
+  text = (f'{res['testing']['test_counter'] % (session_data.test_counter, session_data.test_total)}\n'
           f'{res['topics']['topic']}: {topic.name}\n\n'
           f'{res['testing']['your_answ']}: {answer_indx+1}. *{result_text}*!\n\n'
           f'{test_text}')
 
-  keyboard = get_session_keyboard(test, False, True)
+  keyboard = get_session_keyboard(test, False, True, session_data.is_end())
 
   return (text, keyboard)
+
+
+# def get_body_session_end(section: Section, session_data: TestSessionData) -> (str, InlineKeyboardMarkup):
+#   topic: Topic = section.topics[session_data.topic_indx]
+#   test: TestTask = topic.tests[session_data.test_indx]
+
+#   result_text = f'🟢 {res['testing']['right']}' if (answer_indx == test.correct_answer_index) else f'🔴 {res['testing']['wrong']}'
+#   explanation_text = (f"`----------------------------------`\n\n"
+#                       f"{test.explanation}")
+
+#   test_text = (f"*{test.question}*\n\n"
+#               f"{get_test_answers_str(test, True)}\n\n"
+#               f"{explanation_text if test.explanation else ''}")
+
+#   text = (f'{res['testing']['test_counter'] % (session_data.test_counter, section.get_tests_quantity())}\n'
+#           f'{res['topics']['topic']}: {topic.name}\n\n'
+#           f'{res['testing']['your_answ']}: {answer_indx+1}. *{result_text}*!\n\n'
+#           f'{test_text}')
+
+#   keyboard = get_session_keyboard(test, False, True)
+
+#   return (text, keyboard)
