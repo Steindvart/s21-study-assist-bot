@@ -6,8 +6,11 @@ venv/
 .vs/
 .vscode/
 
+# Security sensitive
+.env
+.env_docker
+
 # Other
 tmp/
 data/
-.env
 app.log
