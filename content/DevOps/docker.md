@@ -400,11 +400,113 @@ docker restart -t 30 my-container
 
 ---
 
-# Какой файл используется для описания многоконтейнерного Docker-приложения?
+# Что такое docker-compose?
+- [ ] Инструмент для сжатия работующих контейнеров
+- [ ] Инструмент для сжатия образов
+- [x] Инструмент для определения и запуска многоконтейнерных Docker-приложений
+- [ ] Инструмент для мониторинга контейнеров
+
+## :desc
+`docker-compose` — это инструмент для определения и запуска многоконтейнерных Docker-приложений. С помощью файла `docker-compose.yml` можно определить конфигурацию всех контейнеров, сетей и томов, необходимых для приложения, и управлять их запуском и остановкой одной командой.
+
+---
+
+# Какой файл используется для конфигурации многоконтейнерного приложения с помощью Docker Compose?
 - [ ] Dockerfile
 - [x] docker-compose.yml
-- [ ] .dockerignore
+- [ ] compose.json
 - [ ] DockerConfig
+
+## :desc
+Файл `docker-compose.yml` используется для конфигурации и определения многоконтейнерных приложений с помощью Docker Compose. Он содержит инструкции по созданию, настройке и объединению нескольких контейнеров в единое приложение.
+
+---
+
+# Что делает команда `docker-compose build`?
+- [ ] Запускает все сервисы, определенные в `docker-compose.yml`
+- [x] Собирает образы для всех сервисов, определенных в `docker-compose.yml`
+- [ ] Подготавливает Docker-сервис для запуска внешних сервисов
+- [ ] Сжимает описанные в `docker-compose.yml` образы
+
+## :desc
+Команда `docker-compose build` собирает Docker-образы для всех сервисов, определенных в файле `docker-compose.yml`. Эта команда полезна, когда необходимо создать или обновить образы перед запуском многоконтейнерного приложения.
+
+---
+
+# Какая команда используется для создания и запуска всех сервисов, определенных в `docker-compose.yml`?
+- [ ] `docker-compose build`
+- [ ] `docker-compose create`
+- [x] `docker-compose up`
+- [ ] `docker-compose start`
+
+## :desc
+Команда `docker-compose up` создаёт и запускает все сервисы, определенные в файле `docker-compose.yml`. Происходит это через создание и запуск контейнеров, сетей и дисковых томов, необходимых для работы приложения.
+
+---
+
+# Как остановить все запущенные сервисы Docker Compose?
+- [ ] `docker-compose down`
+- [ ] `docker-compose kill`
+- [x] `docker-compose stop`
+- [ ] `docker-compose pause`
+
+## :desc
+Команда `docker-compose stop` останавливает все запущенные контейнеры, определенные в `docker-compose.yml`. При этом контейнеры сохраняются и могут быть перезапущены командой `docker-compose start`.
+
+---
+
+# Как удалить все созданные ресурсы (контейнеры, сети, тома) с помощью Docker Compose?
+- [x] `docker-compose down`
+- [ ] `docker-compose remove`
+- [ ] `docker-compose clean`
+- [ ] `docker-compose destroy`
+
+## :desc
+Команда `docker-compose down` удаляет все созданные ресурсы, включая контейнеры, сети и тома, определенные в `docker-compose.yml`. Это полная очистка, которая также может удалить именные тома и сети, созданные с флагом `-v`.
+
+---
+
+# Как пересобрать образы и перезапустить контейнеры с помощью Docker Compose?
+- [ ] `docker-compose start --rebuild`
+- [ ] `docker-compose up --force`
+- [ ] `docker-compose recreate`
+- [x] `docker-compose up --build`
+
+## :desc
+Команда `docker-compose up --build` пересобирает образы и перезапускает контейнеры, используя обновленные версии Dockerfile и другие изменения в конфигурации.
+
+---
+
+# Как посмотреть логи всех сервисов, запущенных с помощью Docker Compose?
+- [ ] `docker-compose logs`
+- [x] `docker-compose logs -f`
+- [ ] `docker-compose log --all`
+- [ ] `docker-compose tail`
+
+## :desc
+Команда `docker-compose logs -f` показывает логи всех запущенных сервисов в режиме "следования" (follow), что позволяет в реальном времени отслеживать события и сообщения, поступающие от контейнеров.
+
+---
+
+# Как запустить определенный сервис из `docker-compose.yml`?
+- [ ] `docker-compose up [service]`
+- [ ] `docker-compose run [service]`
+- [x] `docker-compose up -d [service]`
+- [ ] `docker-compose start [service]`
+
+## :desc
+Команда `docker-compose up -d [service]` запускает указанный сервис в фоновом режиме. Это позволяет запускать отдельные сервисы из многоконтейнерного приложения, не запуская все остальные.
+
+---
+
+# Как с помощью `docker-compose` обновить и перезапустить только один сервис без остановки других сервисов?
+- [x] `docker-compose up -d --no-deps [service]`
+- [ ] `docker-compose up --force-recreate [service]`
+- [ ] `docker-compose update [service]`
+- [ ] `docker-compose restart [service]`
+
+## :desc
+Команда `docker-compose up -d --no-deps [service]` перезапускает указанный сервис без остановки и перезапуска зависимых от него сервисов. Это позволяет обновлять отдельные компоненты приложения.
 
 ---
 
