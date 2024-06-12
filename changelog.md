@@ -2,6 +2,13 @@
 
 Все заметные изменения в этом проекте будут задокументированы в этом файле. Даты указаны по UTC.
 
+#### [0.1.1](https://github.com/Steindvart/s21-study-assist-bot/releases/tag/0.1.1)
+> 12 June 2024
+
+- [[Content] - DevOps, docker: новые тесты, улучшение существующих.](https://github.com/Steindvart/s21-study-assist-bot/pull/23) by [Steindvart](https://github.com/Steindvart)
+- [[Content] - C: добавление тестов по общей теории языка, переменным и типам данных.](https://github.com/Steindvart/s21-study-assist-bot/pull/33) [Steindvart](https://github.com/Steindvart)
+
+
 #### [0.1.0](https://github.com/Steindvart/s21-study-assist-bot/releases/tag/0.1.0)
 > 29 May 2024
 
