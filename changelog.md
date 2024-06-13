@@ -2,6 +2,12 @@
 
 Все заметные изменения в этом проекте будут задокументированы в этом файле. Даты указаны по UTC.
 
+#### [0.1.2](https://github.com/Steindvart/s21-study-assist-bot/releases/tag/0.1.1)
+> 13 June 2024
+
+- [[FIX] - Опечатки и дубли в ответах.](https://github.com/Steindvart/s21-study-assist-bot/pull/34) by [Steindvart](https://github.com/Steindvart)
+
+
 #### [0.1.1](https://github.com/Steindvart/s21-study-assist-bot/releases/tag/0.1.1)
 > 12 June 2024
 
